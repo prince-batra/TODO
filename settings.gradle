@@ -1,2 +1,8 @@
 rootProject.name='TODO'
 include ':app'
+include ':entity'
+include ':gateway'
+include ':gatewayimpl'
+include ':interactor'
+include ':presenter'
+include ':contoller'

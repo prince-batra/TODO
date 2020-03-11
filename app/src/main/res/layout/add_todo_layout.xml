@@ -4,10 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.graphics.Color"/>
+
+        <import type="android.graphics.Color" />
+
+        <variable
+            name="viewHolder"
+            type="com.secureapps.todo.viewHolder.AddToDoViewHolder" />
+
         <variable
             name="addToDo"
-            type="com.secureapps.todo.viewHolder.AddToDoViewHolder" />
+            type="com.secureapps.presenter.AddToDoViewData" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -31,10 +37,10 @@
                 android:paddingStart="30dp"
                 android:paddingTop="15dp"
                 android:paddingEnd="20dp"
+                android:text="@{addToDo.title}"
                 android:textColor="@android:color/black"
                 android:textSize="26sp"
                 android:textStyle="bold"
-                android:text="@{addToDo.title}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -54,17 +60,17 @@
                     android:layout_marginStart="30dp"
                     android:text="@string/pick_a_color"
                     android:textColor="@android:color/black"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
                 <View
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginTop="20dp"
                     android:layout_marginRight="30dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginTop="20dp"
-                    android:onClick="@{addToDo.pickColorListener}"
-                    android:background="@{Color.parseColor(addToDo.pickedColor)}" />
+                    android:background="@{Color.parseColor(addToDo.pickedColor)}"
+                    android:onClick="@{viewHolder.pickColorListener}" />
             </RelativeLayout>
 
             <TextView
@@ -72,10 +78,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
+                android:onClick="@{viewHolder.startTimeListener}"
                 android:text="@string/start_time"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
-                android:textColor="@color/black"
-                android:onClick="@{addToDo.startTimeListener}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/colorSelectionLayout" />
 
@@ -85,10 +91,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="30dp"
+                android:onClick="@{viewHolder.endTimeListener}"
                 android:text="@string/end_time"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
-                android:textColor="@color/black"
-                android:onClick="@{addToDo.endTimeListener}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/colorSelectionLayout" />
 
@@ -96,12 +102,12 @@
                 android:id="@+id/startTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{viewHolder.startTimeListener}"
                 android:paddingStart="30dp"
-                android:paddingEnd="30dp"
                 android:paddingTop="5dp"
-                android:textStyle="bold"
-                android:onClick="@{addToDo.startTimeListener}"
+                android:paddingEnd="30dp"
                 android:text="@{addToDo.startTime}"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -109,12 +115,12 @@
                 android:id="@+id/endTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingEnd="30dp"
+                android:onClick="@{viewHolder.endTimeListener}"
                 android:paddingStart="30dp"
-                android:textStyle="bold"
-                android:text="@{addToDo.endTime}"
                 android:paddingTop="5dp"
-                android:onClick="@{addToDo.endTimeListener}"
+                android:paddingEnd="30dp"
+                android:text="@{addToDo.endTime}"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -159,10 +165,10 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
+                android:onClick="@{viewHolder.saveButtonListener}"
                 android:text="@string/save"
                 android:textSize="18sp"
                 android:theme="@style/PrimaryButton"
-                android:onClick="@{addToDo.saveButtonListener}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/seperatorTwo" />
@@ -171,12 +177,12 @@
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="10dp"
                 android:text="@{addToDo.date}"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginStart="30dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -184,16 +190,16 @@
                 android:id="@+id/imageView2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginEnd="20dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:contentDescription="@string/close"
+                android:onClick="@{viewHolder.closeListener}"
                 android:paddingTop="10dp"
-                android:onClick="@{addToDo.closeListener}"
                 android:tint="@android:color/darker_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/close"
-                android:contentDescription="@string/close" />
+                app:srcCompat="@drawable/close" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

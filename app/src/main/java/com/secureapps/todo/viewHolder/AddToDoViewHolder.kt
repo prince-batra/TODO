@@ -23,6 +23,7 @@ class AddToDoViewHolder(val context: Context,
 
     lateinit var binding: AddTodoLayoutBinding
     val date = ObservableField<String>("CurrentDate")
+    val title = ObservableField<String>()
     val startTime = ObservableField<String>()
     val endTime = ObservableField<String>()
     val remindMe: ObservableBoolean = ObservableBoolean(true)

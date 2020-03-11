@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.secureapps.todo"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -50,6 +50,13 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:2.2.11"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
 
+    implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.1.0'
+    implementation 'com.jakewharton.rxbinding3:rxbinding-appcompat:3.1.0'
+    implementation 'com.jakewharton.rxbinding3:rxbinding-drawerlayout:3.1.0'
+    implementation 'com.jakewharton.rxbinding3:rxbinding-leanback:3.1.0'
+    implementation 'com.jakewharton.rxbinding3:rxbinding-recyclerview:3.1.0'
+    implementation 'com.jakewharton.rxbinding3:rxbinding:3.1.0'
+
     implementation "com.google.dagger:dagger-android:2.25.4"
     implementation "com.google.dagger:dagger-android-support:2.25.4"
     implementation "javax.inject:javax.inject:1"
@@ -58,6 +65,9 @@ dependencies {
     implementation "androidx.room:room-ktx:2.2.4"
     implementation "androidx.room:room-rxjava2:2.2.4"
     implementation "androidx.room:room-guava:2.2.4"
+
+    implementation 'com.github.dhaval2404:colorpicker:1.0'
+
 
     kapt "androidx.room:room-compiler:2.2.4"
     kapt "com.google.dagger:dagger-android-processor:2.25.4"
@@ -68,4 +78,10 @@ dependencies {
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation project(path: ':presenter')
+    implementation project(path: ':gatewayimpl')
+    implementation project(path: ':entity')
+    implementation project(path: ':gateway')
+    implementation project(path: ':contoller')
+    implementation project(path: ':interactor')
 }

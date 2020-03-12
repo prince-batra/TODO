@@ -6,7 +6,8 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class AddToDoInteractor @Inject constructor() {
+class AddToDoInteractor @Inject constructor(
+) {
 
 
     fun saveToDoInDatabase(task: Task) : Observable<TODO_RESULT>{

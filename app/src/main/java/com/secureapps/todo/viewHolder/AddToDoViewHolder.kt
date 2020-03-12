@@ -76,14 +76,11 @@ class AddToDoViewHolder(
     }
 
     private fun bindTextWatcher() {
-        binding.edtTitle.textChanges()
-            .debounce(1, TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .map { t: CharSequence -> t.toString() }
-            .subscribe { string ->
-                controller.viewData().title.set(string)
-            }
-            .apply { disposables.add(this) }
+        controller.userTitle(binding.edtTitle.textChanges().debounce(
+            1,
+            TimeUnit.SECONDS
+        ).observeOn(AndroidSchedulers.mainThread())
+            .map { t: CharSequence -> t.toString() }).apply { this }
     }
 
     private fun bindCloseButton() {
@@ -97,78 +94,32 @@ class AddToDoViewHolder(
     }
 
     private fun bindSaveButton() {
-        binding.btnSave.clicks().throttleFirst(1, TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                if (validate())
-                    controller.saveToDo(calendar).apply { disposables.add(this) }
-            }.apply { disposables.add(this) }
-
-    }
-
-    private fun validate(): Boolean {
-        if (TextUtils.isEmpty(controller.viewData().title.get())) {
-            controller.viewData().error.set("Enter Title")
-            return false;
-        }
-        return true
+        controller.saveButtonClicked(
+            binding.btnSave.clicks().throttleFirst(1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread()), calendar
+        ).apply { disposables.add(this) }
     }
 
 
     private fun bindColorPicker() {
-        binding.colorSelectionLayout.clicks().throttleFirst(1, TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                MaterialColorPickerDialog
-                    .Builder(context as AppCompatActivity)
-                    .setColorShape(ColorShape.SQAURE)    // Default ColorShape.CIRCLE
-                    .setColorSwatch(ColorSwatch._800)    // Default ColorSwatch._500
-                    .setDefaultColor(Color.parseColor(controller.viewData().pickedColor.get()))    // Pass Default Color
-                    .setColorListener { color, colorHex ->
-                        controller.viewData().pickedColor.set(colorHex)
-                    }
-                    .show()
-            }.apply { disposables.add(this) }
+        controller.colorPicker(
+            binding.colorSelectionLayout.clicks().throttleFirst(1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread()), context
+        ).apply { disposables.add(this) }
     }
 
     private fun bindTimers() {
-        Observable.merge(binding.txtStartTime.clicks(), binding.startTime.clicks())
-            .throttleFirst(1, TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                TimePickerDialog(
-                    context,
-                    { timePicker, selectedHour, selectedMinute ->
-                        controller.viewData()
-                            .startTime.set("" + selectedHour + ":" + selectedMinute)
-                    },
-                    Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
-                    Calendar.getInstance().get(Calendar.MINUTE),
-                    true
-                ).apply {
-                    setTitle("Select Start Time")
-                    show()
-                }
-            }.apply { disposables.add(this) }
+        controller.startTimerClicked(
+            Observable.merge(binding.txtStartTime.clicks(), binding.startTime.clicks())
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread()), context
+        ).apply { disposables.add(this) }
 
-        Observable.merge(binding.txtEndTime.clicks(), binding.endTime.clicks())
-            .throttleFirst(1, TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                TimePickerDialog(
-                    context,
-                    { timePicker, selectedHour, selectedMinute ->
-                        controller.viewData().endTime.set("" + selectedHour + ":" + selectedMinute)
-                    },
-                    Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
-                    Calendar.getInstance().get(Calendar.MINUTE),
-                    true
-                ).apply {
-                    setTitle("Select End Time")
-                    show()
-                }
-            }.apply { disposables.add(this) }
-
+        controller.endTimerClicked(
+            Observable.merge(binding.txtEndTime.clicks(), binding.endTime.clicks())
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread()), context
+        ).apply { disposables.add(this) }
     }
 
 

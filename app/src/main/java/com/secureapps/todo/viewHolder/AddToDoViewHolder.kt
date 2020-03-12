@@ -64,8 +64,7 @@ class AddToDoViewHolder(
     }
 
     private fun bindCurrentDate() {
-        val format = SimpleDateFormat("dd MMM YYYY", Locale.US)
-        controller.viewData().date.set(format.format(calendar.time))
+       controller.bindCurrentDate(calendar)
     }
 
     private fun bindRemindMe() {

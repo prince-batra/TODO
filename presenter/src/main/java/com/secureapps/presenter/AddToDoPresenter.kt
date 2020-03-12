@@ -100,4 +100,8 @@ class AddToDoPresenter @Inject constructor(val viewData: AddToDoViewData) {
     fun showValidationError(){
         viewData.error.set("Enter Title")
     }
+
+    fun showCurrentDate(string: String){
+        viewData.date.set(string)
+    }
 }

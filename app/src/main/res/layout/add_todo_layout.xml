@@ -175,7 +175,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
-                android:visibility="@{addToDo.showLoading ? View.VISIBLE : View.VISIBLE}"
+                android:visibility="@{addToDo.showLoading ? View.VISIBLE : View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/seperatorTwo" />

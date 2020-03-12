@@ -97,6 +97,11 @@ class AddToDoController @Inject constructor(
         }
     }
 
+    fun bindCurrentDate(cal: Calendar){
+        val format = SimpleDateFormat("dd MMM YYYY", Locale.US)
+        addToDoPresenter.showCurrentDate(format.format(cal.time))
+    }
+
     private fun validate(): Boolean {
         if (TextUtils.isEmpty(viewData().title.get())) {
             addToDoPresenter.showValidationError()

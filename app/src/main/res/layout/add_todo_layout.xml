@@ -6,6 +6,7 @@
     <data>
 
         <import type="android.graphics.Color" />
+        <import type="android.view.View" />
 
         <variable
             name="viewHolder"
@@ -37,10 +38,10 @@
                 android:paddingStart="30dp"
                 android:paddingTop="15dp"
                 android:paddingEnd="20dp"
-                android:text="@{addToDo.title}"
                 android:textColor="@android:color/black"
                 android:textSize="26sp"
                 android:textStyle="bold"
+                app:error="@{addToDo.error}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -136,7 +137,6 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:buttonTint="@color/colorPrimary"
-                android:checked="@{addToDo.remindMe}"
                 android:text="@string/remind_me"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -162,7 +162,20 @@
                 android:layout_marginRight="20dp"
                 android:text="@string/save"
                 android:textSize="18sp"
+                android:visibility="@{addToDo.showLoading ? View.GONE : View.VISIBLE}"
                 android:theme="@style/PrimaryButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/seperatorTwo" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:visibility="@{addToDo.showLoading ? View.VISIBLE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/seperatorTwo" />

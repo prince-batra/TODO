@@ -13,9 +13,10 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import dagger.android.support.AndroidSupportInjection
+import java.util.*
 import javax.inject.Inject
 
-class AddToDoDialogFragment : BottomSheetDialogFragment(), HasAndroidInjector{
+class AddToDoDialogFragment : BottomSheetDialogFragment(), HasAndroidInjector {
 
     @Inject
     lateinit var addToDoController: AddToDoController
@@ -38,11 +39,20 @@ class AddToDoDialogFragment : BottomSheetDialogFragment(), HasAndroidInjector{
         return initView()
     }
 
+    private fun getSelectedDate(): Calendar {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.YEAR, arguments!!.getInt("year"))
+        calendar.set(Calendar.MONTH, arguments!!.getInt("month"))
+        calendar.set(Calendar.DAY_OF_MONTH, arguments!!.getInt("day"))
+        return calendar
+    }
 
-    private fun initView() : View{
-        return AddToDoViewHolder(activity as AppCompatActivity, {
-            dismiss()
-        }).apply { bind(addToDoController) }.rootView()
+    private fun initView(): View {
+        return AddToDoViewHolder(activity as AppCompatActivity,
+            getSelectedDate()
+            , {
+                dismiss()
+            }).apply { bind(addToDoController) }.rootView()
     }
 
 }

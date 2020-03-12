@@ -1,41 +1,64 @@
 package com.secureapps.todo.viewHolder
 
 import android.content.Context
-import android.graphics.Color
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
-import com.github.dhaval2404.colorpicker.MaterialColorPickerBottomSheet
-import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
-import com.github.dhaval2404.colorpicker.model.ColorShape
-import com.github.dhaval2404.colorpicker.model.ColorSwatch
+import com.applandeo.materialcalendarview.EventDay
+import com.applandeo.materialcalendarview.listeners.OnDayClickListener
 import com.jakewharton.rxbinding3.view.clicks
 import com.secureapps.contoller.DashboardController
-import com.secureapps.todo.R
 import com.secureapps.todo.activityFragment.AddToDoDialogFragment
 import com.secureapps.todo.databinding.DasboardLayoutBinding
-import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import java.util.*
 import java.util.concurrent.TimeUnit
+
 
 class DashboardViewHolder(private val context: Context) : ViewModel() {
 
     lateinit var binding: DasboardLayoutBinding
     private var disposables = CompositeDisposable()
     val message = ObservableField<String>()
-
-    var addToDoListener: View.OnClickListener = View.OnClickListener {
-        val appCompatActivity: AppCompatActivity = context as AppCompatActivity
-        AddToDoDialogFragment().show(appCompatActivity.supportFragmentManager, "addToDo")
-    }
+    lateinit var selectedDate : Calendar
 
     fun bind(dashboardController: DashboardController) {
         binding = DasboardLayoutBinding.inflate(LayoutInflater.from(context))
         binding.dashboardViewHolder = this
+        initValues()
+        bindCalender()
+        bindFloatingButton()
+    }
+
+    private fun bindFloatingButton() {
+        binding.btnAdd.clicks().throttleFirst(1,TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                val appCompatActivity: AppCompatActivity = context as AppCompatActivity
+                AddToDoDialogFragment().apply {
+                    val bundle = Bundle()
+                    bundle.putInt("year",selectedDate.get(Calendar.YEAR))
+                    bundle.putInt("month",selectedDate.get(Calendar.MONTH))
+                    bundle.putInt("day",selectedDate.get(Calendar.DAY_OF_MONTH))
+                    arguments = bundle
+                }.show(appCompatActivity.supportFragmentManager, "addToDo")
+            }.apply { disposables.add(this) }
+    }
+
+    private fun initValues() {
+        selectedDate = Calendar.getInstance()
+    }
+
+    private fun bindCalender() {
+        binding.calendarView.setOnDayClickListener(object : OnDayClickListener{
+            override fun onDayClick(eventDay: EventDay) {
+                selectedDate = eventDay.calendar
+            }
+        })
     }
 
     fun rootView(): View {

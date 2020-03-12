@@ -13,7 +13,12 @@ import com.github.dhaval2404.colorpicker.model.ColorSwatch
 import com.jakewharton.rxbinding3.view.clicks
 import com.secureapps.contoller.AddToDoController
 import com.secureapps.todo.databinding.AddTodoLayoutBinding
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import java.util.*
+import java.util.concurrent.TimeUnit
+
 
 class AddToDoViewHolder(
     val context: Context,
@@ -22,10 +27,16 @@ class AddToDoViewHolder(
 
     lateinit var binding: AddTodoLayoutBinding
     lateinit var controller: AddToDoController
-
+    private var disposables = CompositeDisposable()
 
     fun rootView(): View {
         return binding.root
+    }
+
+    override fun onCleared() {
+        disposables.dispose()
+        disposables = CompositeDisposable()
+        super.onCleared()
     }
 
     fun bind(addToDoController: AddToDoController) {
@@ -35,57 +46,86 @@ class AddToDoViewHolder(
         binding.apply {
             addToDo = controller.viewData().apply { setDefaultState() }
         }
+
+        bindTimers()
+        bindColorPicker()
+        bindSaveButton()
+        bindCloseButton()
     }
 
+    private fun bindCloseButton() {
+        binding.imgClose.clicks().throttleFirst(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                dismissBottomSheet()
+            }.apply { disposables.add(this) }
 
-    var startTimeListener: View.OnClickListener = View.OnClickListener {
-        TimePickerDialog(
-            context,
-            { timePicker, selectedHour, selectedMinute ->
-                controller.viewData().startTime.set("" + selectedHour + ":" + selectedMinute)
-            },
-            Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
-            Calendar.getInstance().get(Calendar.MINUTE),
-            true
-        ).apply {
-            setTitle("Select Start Time")
-            show()
-        }
+
     }
 
-    var endTimeListener: View.OnClickListener = View.OnClickListener {
-        TimePickerDialog(
-            context,
-            { timePicker, selectedHour, selectedMinute ->
-                controller.viewData().endTime.set("" + selectedHour + ":" + selectedMinute)
-            },
-            Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
-            Calendar.getInstance().get(Calendar.MINUTE),
-            true
-        ).apply {
-            setTitle("Select End Time")
-            show()
-        }
+    private fun bindSaveButton() {
+        binding.btnSave.clicks().throttleFirst(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                dismissBottomSheet()
+            }.apply { disposables.add(this) }
+
     }
 
-    var saveButtonListener: View.OnClickListener = View.OnClickListener {
-        dismissBottomSheet()
+    private fun bindColorPicker() {
+        binding.colorSelectionLayout.clicks().throttleFirst(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                MaterialColorPickerDialog
+                    .Builder(context as AppCompatActivity)
+                    .setColorShape(ColorShape.SQAURE)    // Default ColorShape.CIRCLE
+                    .setColorSwatch(ColorSwatch._800)    // Default ColorSwatch._500
+                    .setDefaultColor(Color.parseColor(controller.viewData().pickedColor.get()))    // Pass Default Color
+                    .setColorListener { color, colorHex ->
+                        controller.viewData().pickedColor.set(colorHex)
+                    }
+                    .show()
+            }.apply { disposables.add(this) }
     }
 
-    var closeListener: View.OnClickListener = View.OnClickListener {
-        dismissBottomSheet()
-    }
+    private fun bindTimers() {
+        Observable.merge(binding.txtStartTime.clicks(), binding.startTime.clicks())
+            .throttleFirst(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                TimePickerDialog(
+                    context,
+                    { timePicker, selectedHour, selectedMinute ->
+                        controller.viewData()
+                            .startTime.set("" + selectedHour + ":" + selectedMinute)
+                    },
+                    Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
+                    Calendar.getInstance().get(Calendar.MINUTE),
+                    true
+                ).apply {
+                    setTitle("Select Start Time")
+                    show()
+                }
+            }.apply { disposables.add(this) }
 
-    var pickColorListener: View.OnClickListener = View.OnClickListener {
-        MaterialColorPickerDialog
-            .Builder(context as AppCompatActivity)
-            .setColorShape(ColorShape.SQAURE)    // Default ColorShape.CIRCLE
-            .setColorSwatch(ColorSwatch._800)    // Default ColorSwatch._500
-            .setDefaultColor(Color.parseColor(controller.viewData().pickedColor.get()))    // Pass Default Color
-            .setColorListener { color, colorHex ->
-                controller.viewData().pickedColor.set(colorHex)
-            }
-            .show()
+        Observable.merge(binding.txtEndTime.clicks(), binding.endTime.clicks())
+            .throttleFirst(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                TimePickerDialog(
+                    context,
+                    { timePicker, selectedHour, selectedMinute ->
+                        controller.viewData().endTime.set("" + selectedHour + ":" + selectedMinute)
+                    },
+                    Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
+                    Calendar.getInstance().get(Calendar.MINUTE),
+                    true
+                ).apply {
+                    setTitle("Select End Time")
+                    show()
+                }
+            }.apply { disposables.add(this) }
+
     }
 
 

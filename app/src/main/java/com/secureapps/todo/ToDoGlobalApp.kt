@@ -14,6 +14,7 @@ class ToDoGlobalApp : DaggerApplication() {
 
     override fun onCreate() {
         this.injector = DaggerAppComponent.factory().create(this)
+
         super.onCreate()
     }
 

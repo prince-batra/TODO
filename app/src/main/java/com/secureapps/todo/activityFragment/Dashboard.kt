@@ -23,6 +23,7 @@ class Dashboard : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         initView()
 
 

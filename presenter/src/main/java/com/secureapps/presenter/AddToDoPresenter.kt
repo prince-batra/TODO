@@ -22,14 +22,16 @@ class AddToDoPresenter @Inject constructor(val viewData: AddToDoViewData) {
         viewData.showLoading.set(true)
     }
 
-    fun subscribeSaveToDo(observable: Observable<TODO_RESULT>): Disposable {
+    fun subscribeSaveToDo(observable: Observable<Long>): Disposable {
         return observable
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { result: TODO_RESULT ->
-                if (result == TODO_RESULT.SUCCESS)
-                    viewData.toastBehaviour.onNext("Success");
+            .subscribe { result: Long ->
+                if (result != 0L) {
+                    viewData.toastBehaviour.onNext("Successfully Created");
+                    viewData.bottomSheetClosedSubject.onNext(true);
+                }
                 else
-                    viewData.toastBehaviour.onNext("Failure");
+                    viewData.toastBehaviour.onNext("Failed to Create ToDo");
 
                 hideLoading()
             }

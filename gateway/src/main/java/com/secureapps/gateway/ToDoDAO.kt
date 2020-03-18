@@ -8,7 +8,7 @@ import io.reactivex.Flowable
 @Dao
 interface ToDoDAO {
     @Insert
-    fun insertToDo(todo: Task)
+    fun insertToDo(todo: Task) : Long
 
     @Delete
     fun deleteToDo(todo: Task)

@@ -51,6 +51,10 @@ class AddToDoViewHolder(
         controller.viewData().toastBehaviour.subscribe { value ->
             Toast.makeText(context,value,Toast.LENGTH_SHORT).show();
         }.apply { disposables.add(this) }
+
+        controller.viewData().bottomSheetClosedSubject.subscribe { value ->
+            dismissBottomSheet()
+        }.apply { disposables.add(this) }
     }
 
     fun bind(addToDoController: AddToDoController) {

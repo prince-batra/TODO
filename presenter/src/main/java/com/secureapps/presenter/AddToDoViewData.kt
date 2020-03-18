@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.*
 import javax.inject.Inject
 
@@ -19,6 +20,7 @@ class AddToDoViewData @Inject constructor() {
     val showLoading : ObservableBoolean = ObservableBoolean()
 
     val toastBehaviour : BehaviorSubject<String> = BehaviorSubject.create();
+    val bottomSheetClosedSubject : PublishSubject<Boolean> = PublishSubject.create();
 
     fun setDefaultState() {
         date.set("CurrentDate")

@@ -14,9 +14,6 @@ class AddToDoInteractor @Inject constructor(val toDoGateway: ToDoDAO) {
         return Observable.fromCallable<Long> {
             return@fromCallable toDoGateway.insertToDo(task)
         }.subscribeOn(Schedulers.io())
-
-//        val returnValue: Long  = toDoGateway.insertToDo(task)
-//        return Observable.just(TODO_RESULT.SUCCESS).subscribeOn(Schedulers.io())
     }
 
 }

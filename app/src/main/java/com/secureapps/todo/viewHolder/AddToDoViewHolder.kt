@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
@@ -46,6 +47,12 @@ class AddToDoViewHolder(
         super.onCleared()
     }
 
+    fun subscribeViewDataBehaviours(){
+        controller.viewData().toastBehaviour.subscribe { value ->
+            Toast.makeText(context,value,Toast.LENGTH_SHORT).show();
+        }.apply { disposables.add(this) }
+    }
+
     fun bind(addToDoController: AddToDoController) {
         binding = AddTodoLayoutBinding.inflate(LayoutInflater.from(context))
         controller = addToDoController
@@ -61,6 +68,7 @@ class AddToDoViewHolder(
         bindColorPicker()
         bindSaveButton()
         bindCloseButton()
+        subscribeViewDataBehaviours()
     }
 
     private fun bindCurrentDate() {

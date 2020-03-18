@@ -3,6 +3,7 @@ package com.secureapps.presenter
 import android.content.Context
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import io.reactivex.subjects.BehaviorSubject
 import java.util.*
 import javax.inject.Inject
 
@@ -16,6 +17,8 @@ class AddToDoViewData @Inject constructor() {
     val remindMe: ObservableBoolean = ObservableBoolean()
     val pickedColor = ObservableField<String>()
     val showLoading : ObservableBoolean = ObservableBoolean()
+
+    val toastBehaviour : BehaviorSubject<String> = BehaviorSubject.create();
 
     fun setDefaultState() {
         date.set("CurrentDate")

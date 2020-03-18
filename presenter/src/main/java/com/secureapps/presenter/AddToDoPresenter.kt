@@ -27,9 +27,9 @@ class AddToDoPresenter @Inject constructor(val viewData: AddToDoViewData) {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { result: TODO_RESULT ->
                 if (result == TODO_RESULT.SUCCESS)
-                    Log.d("prince", "success")
+                    viewData.toastBehaviour.onNext("Success");
                 else
-                    Log.d("prince", "Failure")
+                    viewData.toastBehaviour.onNext("Failure");
 
                 hideLoading()
             }

@@ -2,6 +2,7 @@ package com.secureapps.todo.activityFragment
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import com.applandeo.materialcalendarview.CalendarView
 import com.applandeo.materialcalendarview.EventDay
 import com.secureapps.contoller.DashboardController
@@ -42,5 +43,8 @@ class Dashboard : DaggerAppCompatActivity() {
         viewHolder = DashboardViewHolder(this)
         viewHolder.bind(dashboardController)
         setContentView(viewHolder.rootView())
+
+        Handler().postDelayed(Runnable { viewHolder.screenCreated() }, 1000);
     }
+
 }

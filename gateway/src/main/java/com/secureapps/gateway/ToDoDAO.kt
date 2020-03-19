@@ -19,4 +19,7 @@ interface ToDoDAO {
     @Query("select * from task")
     fun getTaskList(): Flowable<List<Task>>
 
+    @Query("select count(*) from task where startTime between :startTime and :endTime")
+    fun getTaksCount(startTime:String, endTime:String): Flowable<Int>
+
 }

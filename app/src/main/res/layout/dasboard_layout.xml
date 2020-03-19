@@ -8,6 +8,11 @@
         <variable
             name="dashboardViewHolder"
             type="com.secureapps.todo.viewHolder.DashboardViewHolder" />
+
+        <variable
+            name="dashboardViewData"
+            type="com.secureapps.presenter.DashboardViewData" />
+
     </data>
 
     <RelativeLayout
@@ -51,7 +56,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="@android:color/white"
                     app:layout_collapseMode="pin"
-                    app:title="@{dashboardViewHolder.message}" />
+                    app:title="@{dashboardViewData.message}" />
 
 
             </com.google.android.material.appbar.AppBarLayout>

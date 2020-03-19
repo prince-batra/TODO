@@ -23,15 +23,21 @@ class DashboardViewHolder(private val context: Context) : ViewModel() {
 
     lateinit var binding: DasboardLayoutBinding
     private var disposables = CompositeDisposable()
-    val message = ObservableField<String>()
     lateinit var selectedDate : Calendar
+    lateinit var dashboardController: DashboardController
 
-    fun bind(dashboardController: DashboardController) {
+    fun bind(controller : DashboardController) {
+        dashboardController = controller;
         binding = DasboardLayoutBinding.inflate(LayoutInflater.from(context))
         binding.dashboardViewHolder = this
+        binding.dashboardViewData = controller.viewData()
         initValues()
         bindCalender()
         bindFloatingButton()
+    }
+
+    fun screenCreated(){
+        dashboardController.getToDoCount(selectedDate);
     }
 
     private fun bindFloatingButton() {

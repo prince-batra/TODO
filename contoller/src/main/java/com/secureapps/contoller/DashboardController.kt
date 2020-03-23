@@ -18,9 +18,13 @@ class DashboardController @Inject constructor(
     }
 
     fun getToDoCount(calendar: Calendar) : Disposable{
-        val startTime = Util.getFormattedDate(calendar,"dd MMM YYYY") + " 00:00";
-        val endTime = Util.getFormattedDate(calendar,"dd MMM YYYY") + " 23:59";
+        val startTime = Util.getFormattedDate(calendar,"dd MMM yyyy") + " 00:00";
+        val endTime = Util.getFormattedDate(calendar,"dd MMM yyyy") + " 23:59";
         return dashboardPresenter.subscribeToDoCount(dashboardInteractor.getTaskCount(startTime,endTime))
+    }
+
+    fun getDots() : Disposable {
+        return dashboardPresenter.subscribeForDots(dashboardInteractor.getAllEventList());
     }
 
 }

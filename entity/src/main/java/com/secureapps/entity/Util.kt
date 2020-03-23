@@ -10,6 +10,14 @@ class Util {
             val format = SimpleDateFormat(stringFormat, Locale.US)
             return format.format(cal.time)
         }
+
+        fun getCalendarInstance(date : String) : Calendar{
+            val calc:Calendar = Calendar.getInstance()
+            val sdf = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.US)
+            calc.time = sdf.parse(date)!!
+            return calc
+        }
+
     }
 
 

@@ -3,6 +3,7 @@ package com.secureapps.gateway
 import androidx.room.*
 import com.secureapps.entity.Task
 import io.reactivex.Flowable
+import io.reactivex.Observable
 
 
 @Dao
@@ -16,10 +17,13 @@ interface ToDoDAO {
     @Update
     fun updateToDo(todo: Task)
 
-    @Query("select * from task")
-    fun getTaskList(): Flowable<List<Task>>
+    @Query("select * from task where startTime between :startTime and :endTime")
+    fun getTaskList(startTime:String, endTime:String): Flowable<List<Task>>
 
     @Query("select count(*) from task where startTime between :startTime and :endTime")
     fun getTaksCount(startTime:String, endTime:String): Flowable<Int>
+
+    @Query("select * from task")
+    fun getAllTaskList(): Flowable<List<Task>>
 
 }

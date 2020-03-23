@@ -64,7 +64,7 @@ class AddToDoController @Inject constructor(
     }
 
     private fun getFormattedDate(cal: Calendar): String {
-        val format = SimpleDateFormat("dd MMM YYYY HH:mm", Locale.US)
+        val format = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.US)
         return format.format(cal.time)
     }
 
@@ -98,7 +98,7 @@ class AddToDoController @Inject constructor(
     }
 
     fun bindCurrentDate(cal: Calendar){
-        val format = SimpleDateFormat("dd MMM YYYY", Locale.US)
+        val format = SimpleDateFormat("dd MMM yyyy", Locale.US)
         addToDoPresenter.showCurrentDate(format.format(cal.time))
     }
 

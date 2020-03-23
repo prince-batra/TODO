@@ -24,26 +24,13 @@ class Dashboard : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         initView()
-
-
-        /*setContentView(R.layout.dasboard_layout)
-        calendarView = findViewById(R.id.calendarView)
-        val calc = Calendar.getInstance()
-        calc.set(2020,2,6,18,0,0)
-
-        val list = ArrayList<EventDay>()
-        val eventDay = EventDay(calc, R.drawable.red_circle)
-        list.add(eventDay)
-        calendarView.setEvents(list)*/
     }
 
     private fun initView() {
         viewHolder = DashboardViewHolder(this)
         viewHolder.bind(dashboardController)
         setContentView(viewHolder.rootView())
-
         Handler().postDelayed(Runnable { viewHolder.screenCreated() }, 1000);
     }
 

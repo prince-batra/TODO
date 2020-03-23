@@ -34,4 +34,10 @@ class DashboardPresenter @Inject constructor(val viewData: DashboardViewData) {
         }
     }
 
+    fun subscribeForTasksList(observable: Flowable<List<SingleTaskViewData>>) : Disposable{
+        return observable.observeOn(AndroidSchedulers.mainThread()).subscribe {
+            viewData.taskListSubject.onNext(it)
+        }
+    }
+
 }

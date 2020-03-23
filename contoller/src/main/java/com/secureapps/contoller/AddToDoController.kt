@@ -58,9 +58,13 @@ class AddToDoController @Inject constructor(
             remindMe = if (viewData().remindMe.get()) 1 else 0,
             startTime = getFormattedDate(startTime),
             endTime = getFormattedDate(endTime),
-            id = 0
+            id = 0,
+            lightColor = getLightColor(viewData().pickedColor.get()!!)
         )
         return task
+    }
+    private fun getLightColor(darkColor:String):String{
+        return "#44" + darkColor.removePrefix("#")
     }
 
     private fun getFormattedDate(cal: Calendar): String {

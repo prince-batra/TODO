@@ -8,8 +8,8 @@ import javax.inject.Inject
 
 class DashboardViewData @Inject constructor() {
 
-    val dotsBehaviorSubject : BehaviorSubject<List<EventDay>> = BehaviorSubject.create();
+    val dotsBehaviorSubject : BehaviorSubject<List<EventDay>> = BehaviorSubject.create()
     val message = ObservableField<String>()
-
+    val taskListSubject : BehaviorSubject<List<SingleTaskViewData>> = BehaviorSubject.create()
 
 }

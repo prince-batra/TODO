@@ -12,5 +12,6 @@ data class Task(
     @ColumnInfo(name = "endTime") val endTime: String,
     @ColumnInfo(name = "remindMe") val remindMe: Int,
     @ColumnInfo(name = "color") val color: String,
+    @ColumnInfo(name = "lightColor") val lightColor: String,
     @ColumnInfo(name = "completed") val completed: Int
 ) {}

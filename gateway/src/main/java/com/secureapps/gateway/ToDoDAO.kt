@@ -17,7 +17,7 @@ interface ToDoDAO {
     @Update
     fun updateToDo(todo: Task)
 
-    @Query("select * from task where startTime between :startTime and :endTime")
+    @Query("select * from task where startTime between :startTime and :endTime order by LOWER(startTime) ASC")
     fun getTaskList(startTime:String, endTime:String): Flowable<List<Task>>
 
     @Query("select count(*) from task where startTime between :startTime and :endTime")
